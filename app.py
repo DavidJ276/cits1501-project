@@ -53,6 +53,10 @@ screen = st.sidebar.radio(
         "3. Interactive Practice",
     ],
 )
+with st.sidebar:
+    st.image("aboriginal_flag.jpg", width=200)
+    st.caption("We acknowledge the Traditional Owners of the land on which we meet today. "
+        "We also pay our respects to Elders past and present.")
 
 
 # =========================================================
@@ -60,6 +64,9 @@ screen = st.sidebar.radio(
 # =========================================================
 if screen == "1. Explorer":
     st.title("Noongar Language Explorer")
+    st.write(
+        "Noongar Dictionary sourced from Whitehurst, R. (2020). Noongar dictionary (2nd ed.). North Metropolitan TAFE."
+    )
     st.write(
         "Search and explore entries from the supplied "
         "English-Noongar dictionary dataset."

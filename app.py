@@ -44,26 +44,81 @@ except (FileNotFoundError, TypeError, ValueError) as error:
 # =========================================================
 # NAVIGATION
 # =========================================================
-st.sidebar.title("Navigation")
-screen = st.sidebar.radio(
-    "Select a screen:",
-    [
-        "1. Explorer",
-        "2. Analysis & Visualisation",
-        "3. Interactive Practice",
-    ],
+import base64
+from pathlib import Path
+import streamlit as st
+
+SIDEBAR_WIDTH = 300  # px
+
+IMAGE_PATH = "assets/aboriginal_flag.jpg"  # change to your image file
+
+
+def img_to_base64(path: str) -> str:
+    return base64.b64encode(Path(path).read_bytes()).decode()
+
+
+img_b64 = img_to_base64(IMAGE_PATH)
+
+st.markdown(
+    f"""
+    <style>
+    section[data-testid="stSidebar"] {{
+        width: {SIDEBAR_WIDTH}px !important;
+    }}
+
+    .sidebar-footer {{
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: {SIDEBAR_WIDTH}px;
+        box-sizing: border-box;
+        padding: 1rem 1.25rem;
+        font-size: 0.8rem;
+        line-height: 1.4;
+        opacity: 0.85;
+    }}
+
+    .sidebar-footer img {{
+        width: 100%;
+        max-width: 200px;      /* adjust image size here */
+        display: block;
+        margin-bottom: 0.75rem;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True,
 )
 
+with st.sidebar:
+    st.title("Navigation")
+    screen = st.radio(
+        "Select a screen:",
+        ["1. Explorer", "2. Analysis & Visualisation", "3. Interactive Practice"],
+    )
 
+    st.markdown(
+        f"""
+        <div class="sidebar-footer">
+            <img src="data:image/png;base64,{img_b64}" alt="Country image">
+            We acknowledge the Traditional Owners of the land on which we meet today.
+            We also pay our respects to Elders past and present.
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 # =========================================================
 # SCREEN 1 - EXPLORER
 # =========================================================
 if screen == "1. Explorer":
     st.title("Noongar Language Explorer")
     st.write(
+        "Noongar Dictionary sourced from Whitehurst, R. (2020). Noongar dictionary (2nd ed.). North Metropolitan TAFE."
+    )
+    st.write(
         "Search and explore entries from the supplied "
         "English-Noongar dictionary dataset."
     )
+    #clans?
 
     st.subheader("Search Dictionary")
     search_query = st.text_input(
